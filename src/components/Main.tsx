@@ -1,5 +1,6 @@
 import { FC, ReactElement } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import Form from "./Form";
 
 export const Main: FC = (): ReactElement => {
   return (
@@ -10,15 +11,8 @@ export const Main: FC = (): ReactElement => {
         alignItems="center"
         flexDirection="column"
       >
-        <Paper
-          elevation={3}
-          sx={{ padding: "1rem", backgroundColor: "secondary.light" }}
-        >
-          <Typography color="primary.dark" variant="h1">
-            Place for form
-          </Typography>
-        </Paper>
-      </Box>
+        <Form />
+    </Box>
   );
 };
 
