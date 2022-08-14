@@ -1,9 +1,10 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import {Box, Typography,Paper,Button, Grid} from "@mui/material";
-
 import UserTextField from "./FormElements/UserTextField";
 import UserDropDown from "./FormElements/UserDropDown";
 import { ages, gender } from "../constants/form";
+import { handleParse } from "../utils/converter";
+import { getMenu } from '../utils/getMenu';
 
 type Values = {
     name : string,
@@ -16,7 +17,7 @@ type Errors = {
     age : boolean,
 }
 
-const Form = () => {
+const Form = (props: any) => {
     const [values, setValues] = useState<Values>({
         name : "",
         gender : "",
@@ -58,11 +59,15 @@ const Form = () => {
         setValues({...values, [event.target.name]: event.target.value});
     }
 
-    const handleSubmit = (event : FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         validateData(values);
         if (formIsValid()) {
-            console.log(values)
+            const foodData = await handleParse('foods-en_ONPP_rev');
+            const servingsData = await handleParse('servings_per_day-en_ONPP');
+            const foodMenu = getMenu(values, {foodData, servingsData});
+            props.submitFoodData({ foodMenu, values});
+            props.handleShowMenu(true);
         } else {
             setIsSubmitDisabled(true);
         }
@@ -96,7 +101,14 @@ const Form = () => {
                             isError={errors.gender} />
                     </Grid>
                 </Grid>
-                <Box textAlign="right" mt={2}>
+                <Box textAlign="right" mt={2} padding={1}>
+                    <Button 
+                        onClick={() => props.handleShowMenu(true)}
+                        variant={"contained"} 
+                        color="inherit"
+                        style={{marginRight: '20px'}} >
+                        Cancel
+                    </Button>
                     <Button 
                         type={"submit"} 
                         variant={"contained"} 

@@ -1,6 +1,6 @@
 export const gender = [
-    {value : "man", label :"Man"},
-    {value : "woman", label :"Woman"},
+    {value : "Male", label :"Male"},
+    {value : "Female", label :"Female"},
 ];
 export const ages = [
     {value : "2 to 3",label :"From 2 to 3"},

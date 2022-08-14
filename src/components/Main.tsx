@@ -1,8 +1,18 @@
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useState } from "react";
 import { Box } from "@mui/material";
 import Form from "./Form";
+import FoodMenu from "./FoodMenu";
 
 export const Main: FC = (): ReactElement => {
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [foodMenu, setFoodMenu] = useState<any>({});
+
+  const handleShowMenu = (val: boolean) => {
+    setShowMenu(val)
+  }
+  const submitFoodData = (data: any) => {
+      setFoodMenu(data)
+  } 
   return (
     <Box
         height="100vh"
@@ -11,7 +21,8 @@ export const Main: FC = (): ReactElement => {
         alignItems="center"
         flexDirection="column"
       >
-        <Form />
+        {showMenu && <FoodMenu foodMenu={foodMenu} handleShowMenu={handleShowMenu} />}
+        {!showMenu && <Form handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
     </Box>
   );
 };
