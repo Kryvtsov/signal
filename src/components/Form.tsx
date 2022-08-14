@@ -65,8 +65,9 @@ const Form = (props: any) => {
         if (formIsValid()) {
             const foodData = await handleParse('foods-en_ONPP_rev');
             const servingsData = await handleParse('servings_per_day-en_ONPP');
-            const foodMenu = getMenu(values, {foodData, servingsData});
-            props.submitFoodData({ foodMenu, values});
+            const foodInfoData = await handleParse('fg_directional_satements-en_ONPP');
+            const foodMenu = getMenu(values, {foodData, servingsData, foodInfoData});
+            props.submitFoodData({ foodMenu, values });
             props.handleShowMenu(true);
         } else {
             setIsSubmitDisabled(true);

@@ -20,6 +20,7 @@ export const Main: FC = (): ReactElement => {
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
+        style={{margin: "3rem"}}
       >
         {showMenu && <FoodMenu foodMenu={foodMenu} handleShowMenu={handleShowMenu} />}
         {!showMenu && <Form handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
