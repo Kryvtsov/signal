@@ -1,9 +1,9 @@
 import { FC, ReactElement, useState } from "react";
 import { Box } from "@mui/material";
-import Form from "./Form";
+import Form from "./Forms/Form";
 import FoodMenu from "./FoodMenu";
-import FormFirstStep from "./FormFistStep";
-import FormFamily from './FormFamily';
+import FormFirstStep from "./Forms/FormFistStep";
+import FormFamily from './Forms/FormFamily';
 
 export const Main: FC = (): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);

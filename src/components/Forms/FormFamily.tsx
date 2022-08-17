@@ -1,15 +1,17 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import {Box, Typography,Paper,Button, Grid} from "@mui/material";
 import UserTextField from "./FormElements/UserTextField";
 import UserDropDown from "./FormElements/UserDropDown";
-import { ages, gender } from "../constants/form";
-import { handleParse } from "../utils/converter";
-import { getMenu } from '../utils/getMenu';
+import FamilyTable from "./FormElements/FamilyTable";
+import { ages, gender } from "../../constants/form";
+import { handleParse } from "../../utils/converter";
+import { getMenu } from '../../utils/getMenu';
 
 type Values = {
     name : string,
     gender : string,
-    age : string,
+    age: string,
+    id?: number,
 }
 type Errors = {
     name : boolean,
@@ -17,7 +19,7 @@ type Errors = {
     age : boolean,
 }
 
-const Form = (props: any) => {
+const FormFamily = (props: any) => {
     const [values, setValues] = useState<Values>({
         name : "",
         gender : "",
@@ -29,6 +31,21 @@ const Form = (props: any) => {
         age: false
     })
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
+    const [familyMenu, setFamilyMenu] = useState<Array<any>>([]);
+    const [familyMembers, setFamilyMembers] = useState<Array<Values>>([]);
+    const [showForm, setShowForm] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        const getFamilyMenu = async () => {
+            const foodData = await handleParse('foods-en_ONPP_rev');
+            const servingsData = await handleParse('servings_per_day-en_ONPP');
+            const foodInfoData = await handleParse('fg_directional_satements-en_ONPP');
+            const foodMenu = getMenu(values, {foodData, servingsData, foodInfoData});
+            setFamilyMenu([...familyMenu, {foodMenu, value: {name: 'Family', age: null, gender: null}}])
+        }
+        getFamilyMenu();
+    }, [])
 
     const validateData = (values: any) => {
         let temp: any = { ...errors };
@@ -74,11 +91,35 @@ const Form = (props: any) => {
         }
     }
 
+    const addFamilyMember = (event : FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        validateData(values);
+        if (formIsValid()) {
+            // not good practice, just for not to install additioanal library generator
+            const id = new Date().getTime();
+            setFamilyMembers([...familyMembers, {...values, id}])
+            setShowForm(false);
+            setValues({name: "", age: "", gender: ""})
+        } else {
+            setIsSubmitDisabled(true);
+        }
+    }
+
+    const handleDeleteMember = (id: number) => {
+        const familyMembersNew = familyMembers.filter((item:any) => item.id !== id)
+        setFamilyMembers(familyMembersNew);
+    }
+
+    const formTitle = !showForm 
+        ? 'You can add your family members or just submit'
+        : 'Please fill in form'
+
     return (
         <Paper elevation={3}
-        sx={{ padding: "1rem"}}>
-            <Typography variant={"h5"}>Please fill in form</Typography>
-            <form onSubmit={(e) => handleSubmit(e)}>
+        sx={{ padding: "1rem", minWidth: "40%"}}>
+            <Typography variant={"h5"} sx={{ marginBottom: "20px"}}>{formTitle}</Typography>
+            {!!familyMembers.length && !showForm && <FamilyTable familyMembers={familyMembers} deleteMember={handleDeleteMember}/>}
+            {showForm && <form onSubmit={(e) => addFamilyMember(e)}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <UserTextField changeHandler={handleChange} label={"Name"} name={"name"} isError={errors.name} />
@@ -104,7 +145,7 @@ const Form = (props: any) => {
                 </Grid>
                 <Box textAlign="right" mt={2} padding={1}>
                     <Button 
-                        onClick={() => props.handleShowMenu(false)}
+                        onClick={() => setShowForm(false)}
                         variant={"contained"} 
                         color="inherit"
                         style={{marginRight: '20px'}} >
@@ -115,12 +156,34 @@ const Form = (props: any) => {
                         variant={"contained"} 
                         color="secondary"
                         disabled={isSubmitDisabled}>
-                        Submit
+                        Add member
                     </Button>
                 </Box>              
-            </form>
+            </form>}       
+            {!showForm && <Box textAlign="right" mt={2} padding={1}>
+                    <Button 
+                        onClick={() => props.handleShowMenu(false)}
+                        variant={"contained"} 
+                        color="inherit">
+                        Cancel
+                    </Button>
+                    <Button 
+                        variant={"contained"} 
+                        color="primary"
+                        onClick={() => setShowForm(true)}
+                        style={{margin: '0 20px'}} >
+                        Add family member
+                    </Button>
+                    <Button 
+                        type={"submit"} 
+                        variant={"contained"} 
+                        color="secondary"
+                        >
+                        Submit
+                    </Button>
+                </Box> }       
         </Paper>
     );
 }
 
-export default Form;
+export default FormFamily;
