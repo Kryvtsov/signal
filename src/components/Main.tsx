@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import Form from "./Form";
 import FoodMenu from "./FoodMenu";
 import FormFirstStep from "./FormFistStep";
+import FormFamily from './FormFamily';
 
 export const Main: FC = (): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -30,6 +31,8 @@ export const Main: FC = (): ReactElement => {
   } 
   const isShowFormFirstStep = !showMenu && !showUserForm && !showFamilyForm;
   const isShowUserForm = !showMenu && showUserForm;
+  const isShowFamilyForm = !showMenu && showFamilyForm;
+
   return (
     <Box
         height="100vh"
@@ -41,6 +44,7 @@ export const Main: FC = (): ReactElement => {
       >
         {isShowFormFirstStep && <FormFirstStep handleShowMenu={handleShowMenu} />}
         {isShowUserForm && <Form handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
+        {isShowFamilyForm && <FormFamily handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
         {showMenu && <FoodMenu foodMenu={foodMenu} handleShowMenu={handleShowMenu} />}
     </Box>
   );

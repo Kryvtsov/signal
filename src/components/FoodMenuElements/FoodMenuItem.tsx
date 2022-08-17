@@ -25,8 +25,8 @@ const FoodMenuItem = (props: any) => {
                 <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell><b>My Numbers</b></TableCell>
-                        <TableCell align="right"><b>My Examples menu</b></TableCell>                        
+                        <TableCell><b>Numbers</b></TableCell>
+                        <TableCell align="right"><b>Examples menu</b></TableCell>                        
                     </TableRow>
                 </TableHead>
                 <TableBody>
