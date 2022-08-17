@@ -2,17 +2,34 @@ import { FC, ReactElement, useState } from "react";
 import { Box } from "@mui/material";
 import Form from "./Form";
 import FoodMenu from "./FoodMenu";
+import FormFirstStep from "./FormFistStep";
 
 export const Main: FC = (): ReactElement => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [foodMenu, setFoodMenu] = useState<any>({});
+  const [showUserForm, setShowUserForm] = useState<boolean>(false);
+  const [showFamilyForm, setShowFamilyForm] = useState<boolean>(false);
 
-  const handleShowMenu = (val: boolean) => {
-    setShowMenu(val)
+
+
+  const handleShowMenu = (val: boolean, menuType?: string) => {
+    setShowUserForm(false);
+    setShowFamilyForm(false);
+    
+    if (showMenu !== val) {
+      setShowMenu(val);
+    }
+    if (menuType) {
+      const isUserMenu = menuType === 'user';
+      setShowUserForm(isUserMenu);
+      setShowFamilyForm(!isUserMenu);
+    }
   }
   const submitFoodData = (data: any) => {
       setFoodMenu(data)
   } 
+  const isShowFormFirstStep = !showMenu && !showUserForm && !showFamilyForm;
+  const isShowUserForm = !showMenu && showUserForm;
   return (
     <Box
         height="100vh"
@@ -20,10 +37,11 @@ export const Main: FC = (): ReactElement => {
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
-        style={{margin: "3rem"}}
+        style={{margin: "5rem"}}
       >
+        {isShowFormFirstStep && <FormFirstStep handleShowMenu={handleShowMenu} />}
+        {isShowUserForm && <Form handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
         {showMenu && <FoodMenu foodMenu={foodMenu} handleShowMenu={handleShowMenu} />}
-        {!showMenu && <Form handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
     </Box>
   );
 };

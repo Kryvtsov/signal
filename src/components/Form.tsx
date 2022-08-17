@@ -104,7 +104,7 @@ const Form = (props: any) => {
                 </Grid>
                 <Box textAlign="right" mt={2} padding={1}>
                     <Button 
-                        onClick={() => props.handleShowMenu(true)}
+                        onClick={() => props.handleShowMenu(false)}
                         variant={"contained"} 
                         color="inherit"
                         style={{marginRight: '20px'}} >
