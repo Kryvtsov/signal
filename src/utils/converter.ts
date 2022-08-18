@@ -1,7 +1,7 @@
 import Papa from "papaparse";
 
-const convertToJson = (str: string) => {
-    const rawData: any[] = Papa.parse(str).data;
+const convertToJson = (str: string) => {    
+    const rawData: any[] = Papa.parse(str.replaceAll('�', '½')).data;
     const rows: any[] = rawData.slice(0, rawData.length-1);
     const headers: string[] = rows[0].filter((r: string) => !!r);
     rows.shift();
