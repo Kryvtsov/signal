@@ -1,3 +1,5 @@
+import { ages, gender as genders } from "../constants/form";
+
 const queryFood = (data: any, fgid: string) => {
     const allData = data.filter( ( item:any ) => item.fgid === fgid ).sort(() => Math.random() - 0.5);
     let tempData = [];
@@ -44,7 +46,13 @@ const getFoodMenu= (foodData: Array<any>, servingsData: Array<any>, age:string, 
 } 
 
 export const getMenu = (userData: any, queryData: any) => {
-    const { age, gender } = userData;
+    let { age, gender } = userData;
+    if (!age || !gender) {
+        const randomAgesLength = Math.floor(Math.random() * ages.length);
+        const randomGenderLength = Math.floor(Math.random() * 2);
+        age = ages[randomAgesLength].value;
+        gender = genders[randomGenderLength].value;
+    }
     const { foodData, servingsData, foodInfoData } = queryData;
 
     const milkFood = getFoodMenu(foodData, servingsData, age, gender, 'mi');

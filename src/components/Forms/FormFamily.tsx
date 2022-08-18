@@ -42,7 +42,7 @@ const FormFamily = (props: any) => {
             const servingsData = await handleParse('servings_per_day-en_ONPP');
             const foodInfoData = await handleParse('fg_directional_satements-en_ONPP');
             const foodMenu = getMenu(values, {foodData, servingsData, foodInfoData});
-            setFamilyMenu([...familyMenu, {foodMenu, value: {name: 'Family', age: null, gender: null}}])
+            setFamilyMenu([...familyMenu, {foodMenu, values: {name: 'Family', age: null, gender: null}}])
         }
         getFamilyMenu();
     }, [])
@@ -76,20 +76,18 @@ const FormFamily = (props: any) => {
         setValues({...values, [event.target.name]: event.target.value});
     }
 
-    const handleSubmit = async (event : FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        validateData(values);
-        if (formIsValid()) {
-            const foodData = await handleParse('foods-en_ONPP_rev');
-            const servingsData = await handleParse('servings_per_day-en_ONPP');
-            const foodInfoData = await handleParse('fg_directional_satements-en_ONPP');
-            const foodMenu = getMenu(values, {foodData, servingsData, foodInfoData});
-            props.submitFoodData({ foodMenu, values });
-            props.handleShowMenu(true);
-        } else {
-            setIsSubmitDisabled(true);
-        }
-    }
+        const foodData = await handleParse("foods-en_ONPP_rev");
+        const servingsData = await handleParse("servings_per_day-en_ONPP");
+        const foodInfoData = await handleParse("fg_directional_satements-en_ONPP");
+        const foodMenu = familyMembers.map((member: any) => {
+            const memberMenu = getMenu({ member }, { foodData, servingsData, foodInfoData });
+            return { foodMenu: memberMenu, values: member };
+        });
+        props.submitFoodData([...familyMenu, ...foodMenu]);
+        props.handleShowMenu(true);
+    };
 
     const addFamilyMember = (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -178,6 +176,7 @@ const FormFamily = (props: any) => {
                         type={"submit"} 
                         variant={"contained"} 
                         color="secondary"
+                        onClick={(e:any) => handleSubmit(e)}
                         >
                         Submit
                     </Button>

@@ -35,17 +35,16 @@ export const Main: FC = (): ReactElement => {
 
   return (
     <Box
-        height="100vh"
         display="flex"
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
-        style={{margin: "5rem"}}
+        style={{margin: "3rem"}}
       >
         {isShowFormFirstStep && <FormFirstStep handleShowMenu={handleShowMenu} />}
         {isShowUserForm && <Form handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
         {isShowFamilyForm && <FormFamily handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
-        {showMenu && <FoodMenu foodMenu={foodMenu} handleShowMenu={handleShowMenu} />}
+        {showMenu && <FoodMenu foodMenus={foodMenu} handleShowMenu={handleShowMenu} />}
     </Box>
   );
 };

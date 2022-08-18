@@ -67,7 +67,7 @@ const Form = (props: any) => {
             const servingsData = await handleParse('servings_per_day-en_ONPP');
             const foodInfoData = await handleParse('fg_directional_satements-en_ONPP');
             const foodMenu = getMenu(values, {foodData, servingsData, foodInfoData});
-            props.submitFoodData({ foodMenu, values });
+            props.submitFoodData([{ foodMenu, values }]);
             props.handleShowMenu(true);
         } else {
             setIsSubmitDisabled(true);
