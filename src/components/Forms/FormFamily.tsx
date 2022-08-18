@@ -35,7 +35,6 @@ const FormFamily = (props: any) => {
     const [familyMembers, setFamilyMembers] = useState<Array<Values>>([]);
     const [showForm, setShowForm] = useState<boolean>(false);
 
-
     useEffect(() => {
         const getFamilyMenu = async () => {
             const foodData = await handleParse('foods-en_ONPP_rev');

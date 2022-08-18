@@ -35,7 +35,7 @@ Instructions on how to use them in your own application are linked below.
 | Material | [https://mui.com/] |
 | GitHub | [https://docs.github.com/en] |
 | papaparse | [https://www.npmjs.com/package/papaparse] |
-|
+
 
 
 ## Available Scripts

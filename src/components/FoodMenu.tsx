@@ -6,7 +6,7 @@ const FoodMenu = (props: any) => {
     return (
         <>
             <Paper elevation={1}
-                   sx={{ padding: "20px"}}
+                   sx={{ padding: "10px"}}
             >
             {
                 foodMenus.map((foodMenu: any, i: number) => {
@@ -15,7 +15,7 @@ const FoodMenu = (props: any) => {
                 <Paper elevation={1}
                         sx={{ padding: "20px", margin: "20px"}}
                         key={i}>
-                    <Typography variant={"h3"} color="secondary.main">{values.name} food guide</Typography>
+                    <Typography variant={"h4"} color="secondary.main">{values.name} food guide</Typography>
                     <Typography variant={"h5"} sx={{marginBottom:"10px"}}>Recomended Food Guide Servings per day</Typography>
                     {values.age && <Typography color="primary.light" >Age: {values.age}</Typography>}
                     {values.gender && <Typography color="primary.light" style={{marginBottom: "20px"}}>Gender: {values.gender}</Typography>}

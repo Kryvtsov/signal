@@ -39,7 +39,7 @@ export const Main: FC = (): ReactElement => {
         justifyContent="center"
         alignItems="center"
         flexDirection="column"
-        style={{margin: "3rem"}}
+        style={{margin: "2rem 0"}}
       >
         {isShowFormFirstStep && <FormFirstStep handleShowMenu={handleShowMenu} />}
         {isShowUserForm && <Form handleShowMenu={handleShowMenu} submitFoodData={submitFoodData} />}
